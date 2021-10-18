@@ -1,4 +1,4 @@
-<img src="src/assets/home.png" height=700 width=600/><img src="src/assets/dropdown.png" width=600 height=300/>
+<img src="src/assets/home.png" height=700/><img src="src/assets/dropdown.png" width=500 height=250/>
 
 # Bem Vindo ao MovieDB React App
 
