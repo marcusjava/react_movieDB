@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "./styles/header";
+import { Container, ItemLink, ItemsContainer } from "./styles/header";
 import { SiThemoviedatabase } from "react-icons/si";
 import { IconContext } from "react-icons";
 import { Link } from "react-router-dom";
@@ -15,7 +15,10 @@ function Header() {
           <SiThemoviedatabase />
         </IconContext.Provider>
       </Link>
-      <DropdownFavorites />
+      <ItemsContainer>
+        <ItemLink to="/signin">Login</ItemLink>
+        <DropdownFavorites />
+      </ItemsContainer>
     </Container>
   );
 }

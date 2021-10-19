@@ -4,7 +4,7 @@ const MovieContext = createContext();
 
 export const useMovieContext = () => useContext(MovieContext);
 
-export const MyMovieProvider = ({ children }) => {
+export const MovieProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
   const toggleFavoriteMovie = (movie) => {
@@ -24,4 +24,4 @@ export const MyMovieProvider = ({ children }) => {
   );
 };
 
-export default MyMovieProvider;
+export default MovieProvider;

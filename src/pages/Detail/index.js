@@ -27,8 +27,6 @@ function Detail() {
 
   const { favorites, toggleFavoriteMovie } = useMovieContext();
 
-  console.log(favorites);
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -37,6 +35,7 @@ function Detail() {
       const detail = await getMovieById(id);
       if (active) {
         setDetail(detail);
+        console.log(detail);
         setLoading(false);
         setFavorite(favorites.some((item) => item.id === detail.id));
         console.log(
