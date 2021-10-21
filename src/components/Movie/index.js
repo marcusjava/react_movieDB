@@ -8,9 +8,12 @@ import {
 } from "./styles/movie";
 import { IconContext } from "react-icons";
 import { AiFillStar } from "react-icons/ai";
+
 import { Link } from "react-router-dom";
 
-const Movie = ({ data: { id, title, poster_path, vote_average } }) => {
+const Movie = ({ data }) => {
+  const { id, title, poster_path, vote_average } = data;
+
   return (
     <Container>
       <Link to={`/movie/${id}`}>

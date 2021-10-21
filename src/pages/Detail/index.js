@@ -16,7 +16,7 @@ import Star from "react-star-ratings";
 import Tag from "../../components/Tag";
 import { BsBookmark, BsFillBookmarkStarFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
-import { useMovieContext } from "../../context/movie";
+import { useFirebase } from "../../context/firebase";
 
 // import { Container } from './styles';
 
@@ -25,7 +25,12 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState(false);
 
-  const { favorites, toggleFavoriteMovie } = useMovieContext();
+  const {
+    currentUser,
+    addFavoriteMovieToFirebase,
+    removeFavoriteFromFirebase,
+    favoritesMovies,
+  } = useFirebase();
 
   const { id } = useParams();
 
@@ -35,13 +40,13 @@ function Detail() {
       const detail = await getMovieById(id);
       if (active) {
         setDetail(detail);
-        console.log(detail);
+        if (currentUser !== null) {
+          setFavorite(
+            favoritesMovies.some((item) => item.userId === currentUser.id)
+          );
+        }
+
         setLoading(false);
-        setFavorite(favorites.some((item) => item.id === detail.id));
-        console.log(
-          detail,
-          favorites.some((item) => item.id === detail.id)
-        );
       }
     }
     if (active) {
@@ -50,7 +55,7 @@ function Detail() {
     return () => {
       active = false;
     };
-  }, [id, favorites]);
+  }, [id, favoritesMovies, currentUser]);
 
   if (loading) {
     return <Spinner />;
@@ -64,13 +69,21 @@ function Detail() {
       <DetailContainer>
         <TitleContainer>
           <Title>{detail.title}</Title>
-          <FavButton onClick={() => toggleFavoriteMovie(detail)}>
-            <IconContext.Provider
-              value={{ style: { color: "#fff", fontSize: 60 } }}
+          {currentUser && (
+            <FavButton
+              onClick={() =>
+                favorite
+                  ? removeFavoriteFromFirebase(detail.id)
+                  : addFavoriteMovieToFirebase(detail)
+              }
             >
-              {favorite ? <BsFillBookmarkStarFill /> : <BsBookmark />}
-            </IconContext.Provider>
-          </FavButton>
+              <IconContext.Provider
+                value={{ style: { color: "#fff", fontSize: 60 } }}
+              >
+                {favorite ? <BsFillBookmarkStarFill /> : <BsBookmark />}
+              </IconContext.Provider>
+            </FavButton>
+          )}
         </TitleContainer>
         <Star
           rating={detail.vote_average}

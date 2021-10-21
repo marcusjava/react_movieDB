@@ -16,6 +16,8 @@ export const GlobalStyles = createGlobalStyle`
 }
 main{
   padding: 0 50px;
+  display: flex;
+  justify-content: center;
 
 }
 

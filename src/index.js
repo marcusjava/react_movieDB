@@ -10,9 +10,11 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <GlobalStyles />
-      <MovieProvider>
-        <App />
-      </MovieProvider>
+      <FirebaseProvider>
+        <MovieProvider>
+          <App />
+        </MovieProvider>
+      </FirebaseProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

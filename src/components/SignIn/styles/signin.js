@@ -3,13 +3,15 @@ import styled from "styled-components/macro";
 export const Container = styled.div`
   width: 40%;
   height: 600px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border: 6px solid #fff;
   border-radius: 5px;
 `;
 
-export const InputContainer = styled.div`
+export const Form = styled.form`
   width: 60%;
   display: flex;
   flex-direction: column;
@@ -29,4 +31,10 @@ export const Title = styled.h2`
 
 export const SubTitle = styled.h4`
   font-weight: 100;
+`;
+
+export const Error = styled.p`
+  margin: 5px;
+  font-weight: bold;
+  color: #e72749;
 `;

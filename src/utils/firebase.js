@@ -9,7 +9,7 @@ import "firebase/auth";
 // Your web app's Firebase configuration
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_FIREBASE_API_KEY,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "moviedb-2ec85.firebaseapp.com",
   projectId: "moviedb-2ec85",
   storageBucket: "moviedb-2ec85.appspot.com",
@@ -88,6 +88,11 @@ export const getMoviesDocs = async (userId) => {
   );
 
   return movies;
+};
+
+export const signUp = async (email, password, displayName) => {
+  const { user } = await auth.createUserWithEmailAndPassword(email, password);
+  await createUserProfileDocument(user, { displayName });
 };
 
 export default firebase;

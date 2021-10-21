@@ -1,11 +1,24 @@
 import React from "react";
-import { Container, ItemLink, ItemsContainer } from "./styles/header";
+import { Container, ItemLink, ItemsContainer, ItemText } from "./styles/header";
 import { SiThemoviedatabase } from "react-icons/si";
+import { BsDoorClosedFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { Link } from "react-router-dom";
 import DropdownFavorites from "../../components/Dropdown";
+import { useFirebase } from "../../context/firebase";
+import { auth } from "../../utils/firebase";
 
 function Header() {
+  const { currentUser } = useFirebase();
+
+  const signOut = async (e) => {
+    e.preventDefault();
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container>
       <Link to="/">
@@ -16,7 +29,17 @@ function Header() {
         </IconContext.Provider>
       </Link>
       <ItemsContainer>
-        <ItemLink to="/signin">Login</ItemLink>
+        {currentUser ? (
+          <ItemText>
+            Seja bem vindo {currentUser.displayName}{" "}
+            <IconContext.Provider value={{ style: { fontSize: 25 } }}>
+              <BsDoorClosedFill onClick={signOut} />
+            </IconContext.Provider>{" "}
+          </ItemText>
+        ) : (
+          <ItemLink to="/signin">Login</ItemLink>
+        )}
+
         <DropdownFavorites />
       </ItemsContainer>
     </Container>
