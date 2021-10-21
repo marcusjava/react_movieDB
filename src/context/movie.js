@@ -8,6 +8,7 @@ export const MovieProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
   const toggleFavoriteMovie = (movie) => {
+    //firebase here
     if (favorites.some((item) => item.id === movie.id)) {
       setFavorites((oldFavorites) =>
         oldFavorites.filter((item) => item.id !== movie.id)

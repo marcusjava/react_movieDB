@@ -25,3 +25,9 @@ export const ItemLink = styled(Link)`
   font-size: 20px;
   cursor: pointer;
 `;
+
+export const ItemText = styled.p`
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+`;

@@ -1,15 +1,23 @@
 import React, { useState } from "react";
-import { useMovieContext } from "../../context/movie";
 import FavoriteItem from "../FavoriteItem";
 
 import { Container, Count, Dropdown, Items, NoItems } from "./styles/dropdown";
 import { BsStar } from "react-icons/bs";
 import { IconContext } from "react-icons";
+import { useFirebase } from "../../context/firebase";
 
 function DropdownFavorites() {
   const [open, setOpen] = useState(false);
 
-  const { favorites, toggleFavoriteMovie } = useMovieContext();
+  const {
+    currentUser,
+    addFavoriteMovieToFirebase,
+    removeFavoriteFromFirebase,
+    favoritesMovies,
+  } = useFirebase();
+
+  console.log("dropdown", favoritesMovies);
+
   return (
     <>
       <Container onClick={() => setOpen((prev) => !prev)}>
@@ -18,17 +26,17 @@ function DropdownFavorites() {
         >
           <BsStar />
         </IconContext.Provider>
-        <Count>{favorites.length}</Count>
+        <Count>{favoritesMovies.length}</Count>
       </Container>
       {open && (
         <Dropdown>
           <Items>
-            {favorites.length ? (
-              favorites.map((item) => (
+            {favoritesMovies.length ? (
+              favoritesMovies.map((item) => (
                 <FavoriteItem
                   key={item.id}
                   item={item}
-                  remove={() => toggleFavoriteMovie(item)}
+                  remove={() => removeFavoriteFromFirebase(item.id)}
                 />
               ))
             ) : (

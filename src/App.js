@@ -5,6 +5,7 @@ import Detail from "./pages/Detail";
 
 import { Route, Switch } from "react-router-dom";
 import SignInAndSignUp from "./pages/SignInAndSignUp";
+
 function App() {
   return (
     <div className="App">

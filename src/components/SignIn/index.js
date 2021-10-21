@@ -1,36 +1,87 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import Button from "../Button";
 import { BsGoogle } from "react-icons/bs";
+import { useHistory } from "react-router-dom";
 import {
   Container,
-  InputContainer,
+  Form,
   ButtonContainer,
   Title,
   SubTitle,
+  Error,
 } from "./styles/signin";
+import { useFirebase } from "../../context/firebase";
 import { IconContext } from "react-icons";
+import { auth, signInWithGoogle } from "../../utils/firebase";
+import firebaseErrorMessages from "../../utils/errorMessages";
 
 // import { Container } from './styles';
 
 function SignIn() {
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const { currentUser, setCurrentUser } = useFirebase();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (currentUser) history.push("/");
+  }, [currentUser, history]);
+
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials((state) => ({ ...state, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = credentials;
+    if (!email || !password) {
+      alert("Preencha todos os campos");
+    }
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      setError(firebaseErrorMessages[error.code]);
+    }
+  };
+
   return (
     <Container>
-      <InputContainer>
-        <Title>Já possuo uma conta</Title>
-        <SubTitle>Entre com seu Email e Senha</SubTitle>
-        <Input />
-        <Input />
+      <Title>Já possuo uma conta</Title>
+      <SubTitle>Entre com seu Email e Senha</SubTitle>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          placeholder="Email"
+          autoComplete="none"
+          name="email"
+          type="email"
+          onChange={onInputChange}
+          value={credentials.email}
+          required
+        />
+        <Input
+          placeholder="Senha"
+          autoComplete="none"
+          name="password"
+          type="password"
+          onChange={onInputChange}
+          value={credentials.password}
+          required
+        />
+        {error && <Error>{error}</Error>}
         <ButtonContainer>
-          <Button>LOGIN</Button>
-          <Button>
+          <Button type="submit">LOGIN</Button>
+          <Button type="button" onClick={signInWithGoogle}>
             <IconContext.Provider value={{ style: { fontSize: 25 } }}>
               <BsGoogle />
             </IconContext.Provider>{" "}
             {"   "} LOGIN COM GOOGLE
           </Button>
         </ButtonContainer>
-      </InputContainer>
+      </Form>
     </Container>
   );
 }
