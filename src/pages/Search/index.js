@@ -38,7 +38,7 @@ function Search() {
   return (
     <Container>
       {movies.length ? (
-        <Category title="Resultado da pesquisa" items={movies} />
+        <Category title={`Resultado da pesquisa - ${term}`} items={movies} />
       ) : (
         <NoItems>Sem resultados</NoItems>
       )}
