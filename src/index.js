@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { GlobalStyles } from "./global-styles";
 import { BrowserRouter } from "react-router-dom";
-import MovieProvider from "./context/movie";
 import FirebaseProvider from "./context/firebase";
 import App from "./App";
 
@@ -11,9 +10,7 @@ ReactDOM.render(
     <BrowserRouter>
       <GlobalStyles />
       <FirebaseProvider>
-        <MovieProvider>
-          <App />
-        </MovieProvider>
+        <App />
       </FirebaseProvider>
     </BrowserRouter>
   </React.StrictMode>,

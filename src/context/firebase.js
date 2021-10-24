@@ -14,12 +14,15 @@ export const useFirebase = () => useContext(FirebaseContext);
 export const FirebaseProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [favoritesMovies, setFavoritesMovies] = useState([]);
+  const [firebaseLoading, setFirebaseLoading] = useState(false);
+  const [error, setError] = useState("");
 
   let unsubscribeFromAuth = null;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
+      setFirebaseLoading(true);
       if (user) {
         const userRef = await createUserProfileDocument(user);
         userRef.onSnapshot(async (snapshot) => {
@@ -27,11 +30,12 @@ export const FirebaseProvider = ({ children }) => {
           const movies = await getMoviesDocs(snapshot.id);
           setFavoritesMovies(movies);
         });
-
+        setFirebaseLoading(false);
         return;
       }
       setCurrentUser(null);
       setFavoritesMovies([]);
+      setFirebaseLoading(false);
       return () => {
         unsubscribeFromAuth();
       };
@@ -41,24 +45,32 @@ export const FirebaseProvider = ({ children }) => {
   const addFavoriteMovieToFirebase = async (movie) => {
     const { id } = currentUser;
     try {
+      setFirebaseLoading(true);
       const movieAdded = await addCollectionDocs("movies", {
         ...movie,
         userId: id,
       });
       setFavoritesMovies([...favoritesMovies, movieAdded]);
+      setFirebaseLoading(false);
     } catch (error) {
+      setError(error.message);
       console.log(error.message);
+      setFirebaseLoading(false);
     }
   };
 
   const removeFavoriteFromFirebase = async (id) => {
     try {
+      setFirebaseLoading(true);
       await removeCollectionDocs("movies", id);
       setFavoritesMovies((favorites) =>
         favorites.filter((item) => item.id !== id)
       );
+      setFirebaseLoading(false);
     } catch (error) {
+      setError(error.message);
       console.log(error);
+      setFirebaseLoading(false);
     }
   };
 
@@ -70,6 +82,8 @@ export const FirebaseProvider = ({ children }) => {
         setCurrentUser,
         addFavoriteMovieToFirebase,
         removeFavoriteFromFirebase,
+        firebaseLoading,
+        error,
       }}
     >
       {children}

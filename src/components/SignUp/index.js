@@ -3,6 +3,7 @@ import Input from "../Input";
 import Button from "../Button";
 import { useFirebase } from "../../context/firebase";
 import { useHistory } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
 import {
   Container,
@@ -11,7 +12,7 @@ import {
   SubTitle,
   ErrorMessage,
 } from "./styles/signup";
-import { auth, signUp } from "../../utils/firebase";
+import { signUp } from "../../utils/firebase";
 import firebaseErrorMessages from "../../utils/errorMessages";
 
 function SignUp() {
@@ -20,6 +21,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { currentUser } = useFirebase();
 
@@ -42,9 +44,12 @@ function SignUp() {
       return;
     }
     try {
+      setLoading(true);
       await signUp(email, password, displayName);
+      setLoading(false);
     } catch (error) {
       setError(firebaseErrorMessages[error.code]);
+      setLoading(false);
     }
   };
 
@@ -81,7 +86,16 @@ function SignUp() {
           required
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
-        <Button>REGISTRAR</Button>
+        <Button disabled={loading}>
+          <Loader
+            type="Oval"
+            color="#00BFFF"
+            height={25}
+            width={25}
+            visible={loading}
+          />
+          REGISTRAR
+        </Button>
       </Form>
     </Container>
   );

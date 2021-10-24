@@ -42,13 +42,3 @@ export const Button = styled.button`
   border: none;
   cursor: pointer;
 `;
-
-export const ButtonLink = styled(Link)`
-  text-align: center;
-  background-color: #141a29;
-  color: #fff;
-  padding: 0.8em;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-`;

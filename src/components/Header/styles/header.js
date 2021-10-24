@@ -13,11 +13,14 @@ export const Container = styled.div`
 `;
 
 export const ItemsContainer = styled.div`
-  width: 20%;
+  width: 40%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 50px;
+  @media (max-width: 1000px) {
+    width: 80%;
+  }
 `;
 
 export const ItemLink = styled(Link)`

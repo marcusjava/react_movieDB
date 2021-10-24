@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {
   Container,
@@ -6,7 +7,6 @@ import {
   Description,
   DescriptionContainer,
   Button,
-  ButtonLink,
   ButtonContainer,
 } from "./styles/favorite-item";
 
@@ -23,7 +23,9 @@ function FavoriteItem({ item: { poster_path, id, title }, remove }) {
           <Button danger onClick={() => remove()}>
             Remover
           </Button>
-          <ButtonLink to={`/movie/${id}`}>Ir</ButtonLink>
+          <Link to={`/movie/${id}`}>
+            <Button>Ver</Button>
+          </Link>
         </ButtonContainer>
       </DescriptionContainer>
     </Container>

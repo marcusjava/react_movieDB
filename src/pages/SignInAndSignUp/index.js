@@ -3,7 +3,6 @@ import SignIn from "../../components/SignIn";
 import SignUp from "../../components/SignUp";
 import { SiThemoviedatabase } from "react-icons/si";
 import { IconContext } from "react-icons";
-
 import { Container, SignContainer } from "./styles/signin-signup";
 
 function SignInAndSignUp() {

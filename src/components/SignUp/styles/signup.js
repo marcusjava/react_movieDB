@@ -9,6 +9,9 @@ export const Container = styled.div`
   justify-content: center;
   border: 6px solid #fff;
   border-radius: 5px;
+  @media (max-width: 1190px) {
+    width: 100%;
+  }
 `;
 
 export const Form = styled.form`

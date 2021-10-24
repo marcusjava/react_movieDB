@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import Button from "../Button";
 import { BsGoogle } from "react-icons/bs";
+import Loader from "react-loader-spinner";
 import { useHistory } from "react-router-dom";
 import {
   Container,
@@ -21,8 +22,8 @@ import firebaseErrorMessages from "../../utils/errorMessages";
 function SignIn() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-
-  const { currentUser, setCurrentUser } = useFirebase();
+  const [loading, setLoading] = useState(false);
+  const { currentUser } = useFirebase();
 
   const history = useHistory();
 
@@ -42,9 +43,12 @@ function SignIn() {
       alert("Preencha todos os campos");
     }
     try {
+      setLoading(true);
       await auth.signInWithEmailAndPassword(email, password);
+      setLoading(false);
     } catch (error) {
       setError(firebaseErrorMessages[error.code]);
+      setLoading(false);
     }
   };
 
@@ -73,7 +77,16 @@ function SignIn() {
         />
         {error && <Error>{error}</Error>}
         <ButtonContainer>
-          <Button type="submit">LOGIN</Button>
+          <Button type="submit" disabled={loading}>
+            <Loader
+              type="Oval"
+              color="#00BFFF"
+              height={25}
+              width={25}
+              visible={loading}
+            />
+            LOGIN
+          </Button>
           <Button type="button" onClick={signInWithGoogle}>
             <IconContext.Provider value={{ style: { fontSize: 25 } }}>
               <BsGoogle />

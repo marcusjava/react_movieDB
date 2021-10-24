@@ -17,6 +17,7 @@ import Tag from "../../components/Tag";
 import { BsBookmark, BsFillBookmarkStarFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import { useFirebase } from "../../context/firebase";
+import Loader from "react-loader-spinner";
 
 // import { Container } from './styles';
 
@@ -30,6 +31,7 @@ function Detail() {
     addFavoriteMovieToFirebase,
     removeFavoriteFromFirebase,
     favoritesMovies,
+    firebaseLoading,
   } = useFirebase();
 
   const { id } = useParams();
@@ -80,7 +82,19 @@ function Detail() {
               <IconContext.Provider
                 value={{ style: { color: "#fff", fontSize: 60 } }}
               >
-                {favorite ? <BsFillBookmarkStarFill /> : <BsBookmark />}
+                {firebaseLoading ? (
+                  <Loader
+                    type="Oval"
+                    color="#00BFFF"
+                    height={60}
+                    width={60}
+                    visible={firebaseLoading}
+                  />
+                ) : favorite ? (
+                  <BsFillBookmarkStarFill />
+                ) : (
+                  <BsBookmark />
+                )}
               </IconContext.Provider>
             </FavButton>
           )}

@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import Category from "../../components/Category";
 import Banner from "../../components/Banner";
 import Spinner from "../../components/Spinner";
+import Search from "../../components/Search";
 
 function Home() {
   const [nowMovies, setNowMovies] = useState([]);
@@ -20,9 +21,9 @@ function Home() {
     let isActive = true;
     const ac = new AbortController();
     async function loadMovies() {
-      const { nowData, popularData, topRatedData } = await getMovies();
-
       if (isActive) {
+        setLoading(true);
+        const { nowData, popularData, topRatedData } = await getMovies();
         setNowMovies(getListMovies(15, nowData.data.results));
         setBanner(randomBanner(getListMovies(15, nowData.data.results)));
         setPopularMovies(getListMovies(5, popularData.data.results));
@@ -46,6 +47,7 @@ function Home() {
   }
   return (
     <Container>
+      <Search />
       <Banner data={banner} redirectToDetailPage={redirectToDetailPage} />
       <Category title="Em cartaz" items={nowMovies} />
       <Category title="Populares" items={popularMovies} />

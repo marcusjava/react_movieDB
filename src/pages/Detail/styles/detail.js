@@ -5,6 +5,10 @@ export const Container = styled.div`
   width: 100%;
   padding: 50px 0;
   gap: 50px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const DetailContainer = styled.div`
