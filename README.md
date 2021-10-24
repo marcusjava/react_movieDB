@@ -1,10 +1,10 @@
-<img src="src/assets/home.png" height=500/><img src="src/assets/dropdown.png" width=500 height=300/><img src="src/assets/detail.png" width=500 height=300/><img src="src/assets/search.png" width=500 height=300/><img src="src/assets/signin.png" width=500 height=300/>
+<img src="src/assets/home.png" height=500/><img src="src/assets/dropdown.png" width=400 height=200/><img src="src/assets/detail.png" width=400 height=200/><img src="src/assets/search.png" width=400 height=200/><img src="src/assets/signin.png" width=400 height=200/>
 
 # Bem Vindo ao MovieDB React App
 
 ## Projeto desenvolvido com React + Styled Components + MovieDB API
 
-##`https://mymoviedb-app.netlify.app/`
+## https://mymoviedb-app.netlify.app/
 
 ## Tecnologias utilizadas
 
