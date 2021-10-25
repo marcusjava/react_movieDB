@@ -16,8 +16,12 @@ function Search() {
   };
   return (
     <Container>
-      <Input onChange={(e) => setSearch(e.target.value)} value={search} />
-      <Button onClick={handleClick}>
+      <Input
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
+        data-test-id="search-input"
+      />
+      <Button onClick={handleClick} data-test-id="search-btn">
         <IconContext.Provider value={{ style: { fontSize: 50 } }}>
           <BsSearch />
         </IconContext.Provider>
