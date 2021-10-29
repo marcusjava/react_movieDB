@@ -36,16 +36,17 @@ function Detail() {
 
   const { id } = useParams();
 
+  console.log(currentUser);
+
   useEffect(() => {
     let active = true;
     async function getDetail() {
       const detail = await getMovieById(id);
       if (active) {
+        console.log(detail);
         setDetail(detail);
         if (currentUser !== null) {
-          setFavorite(
-            favoritesMovies.some((item) => item.userId === currentUser.id)
-          );
+          setFavorite(favoritesMovies.some((item) => item.id === detail.id));
         }
 
         setLoading(false);
@@ -60,7 +61,11 @@ function Detail() {
   }, [id, favoritesMovies, currentUser]);
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <div data-testid="loading">
+        <Spinner />
+      </div>
+    );
   }
   return (
     <Container>
@@ -70,7 +75,7 @@ function Detail() {
       />
       <DetailContainer>
         <TitleContainer>
-          <Title>{detail.title}</Title>
+          <Title data-testid="title">{detail.title}</Title>
           {currentUser && (
             <FavButton
               onClick={() =>
@@ -107,9 +112,11 @@ function Detail() {
         />
         <Description>{detail.overview}</Description>
 
-        <GenresContainer>
+        <GenresContainer data-testid="genres">
           {detail.genres?.map((item) => (
-            <Tag key={item.id}>{item.name}</Tag>
+            <Tag key={item.id} data-testid={`${item.name}-tag`}>
+              {item.name}
+            </Tag>
           ))}
         </GenresContainer>
       </DetailContainer>

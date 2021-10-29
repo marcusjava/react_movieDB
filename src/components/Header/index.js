@@ -33,7 +33,7 @@ function Header() {
           <ItemText>
             Seja bem vindo {currentUser.displayName}{" "}
             <IconContext.Provider value={{ style: { fontSize: 25 } }}>
-              <BsDoorClosedFill onClick={signOut} />
+              <BsDoorClosedFill onClick={signOut} data-testid="logout" />
             </IconContext.Provider>{" "}
           </ItemText>
         ) : (

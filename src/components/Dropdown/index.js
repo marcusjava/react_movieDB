@@ -9,18 +9,14 @@ import { useFirebase } from "../../context/firebase";
 function DropdownFavorites() {
   const [open, setOpen] = useState(false);
 
-  const {
-    currentUser,
-    addFavoriteMovieToFirebase,
-    removeFavoriteFromFirebase,
-    favoritesMovies,
-  } = useFirebase();
-
-  console.log("dropdown", favoritesMovies);
+  const { removeFavoriteFromFirebase, favoritesMovies } = useFirebase();
 
   return (
     <>
-      <Container onClick={() => setOpen((prev) => !prev)}>
+      <Container
+        data-testid="dropdown"
+        onClick={() => setOpen((prev) => !prev)}
+      >
         <IconContext.Provider
           value={{ style: { color: "#fff", fontSize: 60 } }}
         >
@@ -29,7 +25,7 @@ function DropdownFavorites() {
         <Count>{favoritesMovies.length}</Count>
       </Container>
       {open && (
-        <Dropdown>
+        <Dropdown data-testid="dropdown-list">
           <Items>
             {favoritesMovies.length ? (
               favoritesMovies.map((item) => (
