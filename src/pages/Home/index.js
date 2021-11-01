@@ -43,7 +43,11 @@ function Home() {
   };
 
   if (loading) {
-    return <Spinner data-test-id="loading" />;
+    return (
+      <div data-testid="loading">
+        <Spinner />
+      </div>
+    );
   }
   return (
     <Container>

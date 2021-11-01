@@ -28,8 +28,6 @@ export const FirebaseProvider = ({ children }) => {
         userRef.onSnapshot(async (snapshot) => {
           setCurrentUser({ id: snapshot.id, ...snapshot.data() });
           const movies = await getMoviesDocs(snapshot.id);
-
-          console.log("favorites", movies);
           setFavoritesMovies(movies);
         });
         setFirebaseLoading(false);

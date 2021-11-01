@@ -21,7 +21,7 @@ function Header() {
   };
   return (
     <Container>
-      <Link to="/">
+      <Link to="/" data-testid="home-link">
         <IconContext.Provider
           value={{ style: { color: "#fff", fontSize: 60 } }}
         >

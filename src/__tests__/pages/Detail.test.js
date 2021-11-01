@@ -60,7 +60,16 @@ const favoriteMovies = [
 const detailFavorite = {
   adult: false,
   backdrop_path: "/lNyLSOKMMeUPr1RsL4KcRuIXwHt.jpg",
-  genre_ids: [878, 28],
+  genres: [
+    {
+      id: 878,
+      name: "Ficção científica",
+    },
+    {
+      id: 28,
+      name: "Ação",
+    },
+  ],
   id: 580489,
   original_language: "en",
   original_title: "Venom: Let There Be Carnage",
@@ -119,6 +128,9 @@ const renderWithFirebaseProvider = (user, favorites, id) => {
         value={{
           currentUser: user,
           favoritesMovies: favorites,
+          addFavoriteMovieToFirebase: () =>
+            favoriteMovies.push(detailNotFavorite),
+          removeFavoriteFromFirebase: {},
         }}
       >
         <Detail />
@@ -154,7 +166,7 @@ describe("Testing Detail page", () => {
     expect(screen.queryByTestId("loading")).not.toBeInTheDocument();
   });
 
-  it("checking elements are displayed correctly", async () => {
+  it("checking elements are displayed correctly when user is not logged", async () => {
     const id = 335983;
     getMovieById.mockResolvedValueOnce(detailNotFavorite);
     jest.spyOn(RouterData, "useParams").mockReturnValue({ id: id });
@@ -164,9 +176,26 @@ describe("Testing Detail page", () => {
     expect(screen.getByTestId("title").textContent).toBe("Venom");
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
     expect(screen.getByAltText("banner")).toBeInTheDocument();
-    expect(screen.queryByText(/O jornalista Eddie Brock/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Ficção científica/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Ação/i)).toBeInTheDocument();
-    debug();
+    expect(screen.getByText(/O jornalista Eddie Brock/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ficção científica/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ação/i)).toBeInTheDocument();
+  });
+
+  it("user is logged and movie is not favorite", async () => {
+    const id = 335983;
+    getMovieById.mockResolvedValueOnce(detailNotFavorite);
+    jest.spyOn(RouterData, "useParams").mockReturnValue({ id: id });
+    const { debug } = renderWithFirebaseProvider(user, favoriteMovies);
+
+    await waitFor(() => screen.queryByTestId("loading"));
+    expect(screen.getByTestId("not-favorite-button")).toBeInTheDocument();
+  });
+  it("user is logged and movie is favorite", async () => {
+    const id = 335983;
+    getMovieById.mockResolvedValueOnce(detailFavorite);
+    jest.spyOn(RouterData, "useParams").mockReturnValue({ id: id });
+    const { debug } = renderWithFirebaseProvider(user, favoriteMovies);
+    await waitFor(() => screen.queryByTestId("loading"));
+    expect(screen.getByTestId("favorite-button")).toBeInTheDocument();
   });
 });

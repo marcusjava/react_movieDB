@@ -36,8 +36,6 @@ function Detail() {
 
   const { id } = useParams();
 
-  console.log(currentUser);
-
   useEffect(() => {
     let active = true;
     async function getDetail() {
@@ -96,9 +94,9 @@ function Detail() {
                     visible={firebaseLoading}
                   />
                 ) : favorite ? (
-                  <BsFillBookmarkStarFill />
+                  <BsFillBookmarkStarFill data-testid="favorite-button" />
                 ) : (
-                  <BsBookmark />
+                  <BsBookmark data-testid="not-favorite-button" />
                 )}
               </IconContext.Provider>
             </FavButton>
@@ -114,9 +112,7 @@ function Detail() {
 
         <GenresContainer data-testid="genres">
           {detail.genres?.map((item) => (
-            <Tag key={item.id} data-testid={`${item.name}-tag`}>
-              {item.name}
-            </Tag>
+            <Tag key={item.id}>{item.name}</Tag>
           ))}
         </GenresContainer>
       </DetailContainer>

@@ -8,6 +8,7 @@ import {
 } from "./styles/movie";
 import { IconContext } from "react-icons";
 import { AiFillStar } from "react-icons/ai";
+import NoImage from "../../assets/no-image.png";
 
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,14 @@ const Movie = ({ data }) => {
   return (
     <Container>
       <Link to={`/movie/${id}`}>
-        <Thumbnail src={`https://image.tmdb.org/t/p/original${poster_path}`} />
+        <Thumbnail
+          src={
+            poster_path
+              ? `https://image.tmdb.org/t/p/original${poster_path}`
+              : NoImage
+          }
+          alt="movie image"
+        />
       </Link>
       <TitleContainer>
         <Link to={`/movie/${id}`}>
